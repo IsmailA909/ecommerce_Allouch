@@ -1,0 +1,74 @@
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: ecommerce_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: ecommerce
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpass
+    ports:
+      - "3306:3306"
+    networks:
+      - ecommerce_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uuser", "-puserpass"]
+      interval: 5s
+      retries: 5
+
+  customers_service:
+    build:
+      context: ./customers_service
+    container_name: customers_service
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - ecommerce_network
+    ports:
+      - "5000:5000"
+
+  inventory_service:
+    build:
+      context: ./inventory_service
+    container_name: inventory_service
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - ecommerce_network
+    ports:
+      - "5001:5001"
+
+  sales_service:
+    build:
+      context: ./sales_service
+    container_name: sales_service
+    depends_on:
+      db:
+        condition: service_healthy
+      inventory_service:
+        condition: service_started
+    networks:
+      - ecommerce_network
+    ports:
+      - "5002:5002"
+
+  reviews_service:
+    build:
+      context: ./reviews_service
+    container_name: reviews_service
+    depends_on:
+      db:
+        condition: service_healthy
+      inventory_service:
+        condition: service_started
+    networks:
+      - ecommerce_network
+    ports:
+      - "5003:5003"
+ 
+networks:
+  ecommerce_network:
+    driver: bridge
