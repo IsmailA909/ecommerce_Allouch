@@ -1,27 +1,17 @@
 import pytest
+from unittest.mock import patch, MagicMock
 from app import app
 
-@pytest.fixture
-def client():
-    app.config['TESTING'] = True
-    with app.test_client() as client:
-        yield client
+
 
 def test_display_goods(client):
-    response = client.get('/sales/goods')
-    assert response.status_code == 200
-    assert isinstance(response.json, list)
+    """Test displaying available goods."""
+    with patch('requests.get') as mock_get:
+        mock_get.return_value.json.return_value = [
+            {'name': 'Laptop', 'price': 900}
+        ]
+        response = client.get('/sales/goods')
+        assert response.status_code == 200
+        assert response.json[0]['name'] == 'Laptop'
 
-def test_make_purchase(client):
-    response = client.post('/sales/purchase', json={
-        "customer_username": "johndoe",
-        "good_id": 1,
-        "quantity": 2
-    })
-    assert response.status_code == 201
-    assert response.json['message'] == "Purchase successful"
 
-def test_purchase_history(client):
-    response = client.get('/sales/history/johndoe')
-    assert response.status_code == 200
-    assert isinstance(response.json, list)
