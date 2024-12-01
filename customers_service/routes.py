@@ -15,6 +15,16 @@ logger = logging.getLogger(__name__)
 
 customers_bp = Blueprint('customers', __name__, url_prefix='/customers')
 
+@customers_bp.route('/status', methods=['GET'])
+def health_check():
+    """
+    Health Check for Customers Service
+
+    Returns:
+    - 200: JSON response indicating the service is healthy.
+    """
+    return jsonify({"status": "Service is healthy"}), 200
+
 # Register a new customer
 @customers_bp.route('/register', methods=['POST'])
 def register_customer():
@@ -107,7 +117,7 @@ def get_all_customers():
 
 
 # Get a customer by username
-@customers_bp.route('/<username>', methods=['GET'])
+@customers_bp.route('/get/<username>', methods=['GET'])
 def get_customer_by_username(username):
     logger.info(f"Fetching customer '{username}'.")
     customer = Customer.query.filter_by(username=username).first()

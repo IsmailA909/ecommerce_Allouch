@@ -111,7 +111,7 @@ def test_get_customer(client):
         mock_query.filter_by.return_value.first.return_value = mock_customer
 
         # Send request
-        response = client.get('/customers/johndoe')
+        response = client.get('/customers/get/johndoe')
 
         # Assert response
         assert response.status_code == 200

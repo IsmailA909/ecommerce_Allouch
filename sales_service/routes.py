@@ -15,6 +15,16 @@ logger = logging.getLogger(__name__)
 
 sales_bp = Blueprint('sales', __name__, url_prefix='/sales')
 
+@sales_bp.route('/status', methods=['GET'])
+def health_check():
+    """
+    Status Check for Sales Service.
+
+    Returns:
+    - 200: If the service is running.
+    """
+    return jsonify({"status": "Sales Service is healthy"}), 200
+
 
 # Helper function to fetch data from other services
 def fetch_service_data(url, method="GET", data=None):
@@ -138,7 +148,7 @@ def make_sale():
             return jsonify({"error": "Insufficient stock"}), 400
 
         # Fetch customer wallet balance
-        customer_url = f"http://customers_service:5000/customers/{customer_username}"
+        customer_url = f"http://customers_service:5000/customers/get/{customer_username}"
         customer = fetch_service_data(customer_url)
         if "error" in customer:
             logger.warning(f"Customer {customer_username} not found.")

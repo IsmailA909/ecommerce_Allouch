@@ -14,6 +14,17 @@ logger = logging.getLogger(__name__)
 
 reviews_bp = Blueprint('reviews', __name__, url_prefix='/reviews')
 
+@reviews_bp.route('/status', methods=['GET'])
+def health_check():
+    """
+    Status Check for Reviews Service.
+
+    Returns:
+    - 200: If the service is running.
+    """
+    return jsonify({"status": "Reviews Service is healthy"}), 200
+
+
 # Submit a review
 @reviews_bp.route('/submit', methods=['POST'])
 def submit_review():
@@ -101,7 +112,7 @@ def get_product_reviews(product_id):
 
 
 # Get all reviews by a customer
-@reviews_bp.route('/customer/<customer_username>', methods=['GET'])
+@reviews_bp.route('/customer/get/<customer_username>', methods=['GET'])
 def get_customer_reviews(customer_username):
     logger.info(f"Fetching all reviews by customer {customer_username}.")
     reviews = Review.query.filter_by(customer_username=customer_username).all()

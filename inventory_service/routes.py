@@ -14,6 +14,16 @@ logger = logging.getLogger(__name__)
 
 inventory_bp = Blueprint('inventory', __name__, url_prefix='/inventory')
 
+@inventory_bp.route('/status', methods=['GET'])
+def health_check():
+    """
+    Status Check for Inventory Service.
+
+    Returns:
+    - 200: If the service is running.
+    """
+    return jsonify({"status": "Inventory Service is healthy"}), 200
+
 # Add new goods
 @inventory_bp.route('/add', methods=['POST'])
 def add_goods():
