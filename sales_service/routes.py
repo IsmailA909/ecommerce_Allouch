@@ -169,7 +169,7 @@ def make_sale():
             logger.error("Failed to deduct wallet balance.")
             return jsonify(wallet_response), 500
 
-        # Record purchase
+        # Record purchases
         purchase = Purchase(
             customer_username=customer_username,
             good_id=good_id,
