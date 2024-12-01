@@ -56,6 +56,23 @@ def register_customer():
             logger.warning(f"Missing required field: {field}")
             return jsonify({"error": f"'{field}' is required"}), 400
 
+    # Minimal validation for specific fields
+    if len(data['password']) < 8:
+        logger.warning("Password length is less than 8 characters.")
+        return jsonify({"error": "Password must be at least 8 characters long"}), 400
+
+    if not isinstance(data['age'], int) or data['age'] <= 0:
+        logger.warning("Invalid age provided.")
+        return jsonify({"error": "Age must be a positive integer"}), 400
+
+    if data['gender'] not in ['male', 'female', 'other']:
+        logger.warning("Invalid gender provided.")
+        return jsonify({"error": "Gender must be 'male', 'female', or 'other'"}), 400
+
+    if len(data['username']) < 3:
+        logger.warning("Username length is less than 3 characters.")
+        return jsonify({"error": "Username must be at least 3 characters long"}), 400
+
     if Customer.query.filter_by(username=data['username']).first():
         logger.warning(f"Username '{data['username']}' already exists.")
         return jsonify({"error": "Username already exists"}), 400
@@ -79,6 +96,16 @@ def register_customer():
 # Delete a customer
 @customers_bp.route('/delete/<username>', methods=['DELETE'])
 def delete_customer(username):
+    """
+    Delete an existing customer.
+
+    Parameters:
+    - username (str): The username of the customer to delete.
+
+    Returns:
+    - 200: Success message if deletion was successful.
+    - 404: Error message if the customer was not found.
+    """
     logger.info(f"Attempting to delete customer '{username}'.")
     customer = Customer.query.filter_by(username=username).first()
     if not customer:
@@ -93,6 +120,19 @@ def delete_customer(username):
 # Update customer information
 @customers_bp.route('/update/<username>', methods=['PUT'])
 def update_customer(username):
+    """
+    Update information of an existing customer.
+
+    Parameters:
+    - username (str): The username of the customer to update.
+
+    Request Body:
+    - Any field(s) from the customer model.
+
+    Returns:
+    - 200: Success message and updated customer information.
+    - 404: Error message if the customer was not found.
+    """
     logger.info(f"Attempting to update customer '{username}'.")
     customer = Customer.query.filter_by(username=username).first()
     if not customer:
@@ -111,6 +151,12 @@ def update_customer(username):
 # Get all customers
 @customers_bp.route('/all', methods=['GET'])
 def get_all_customers():
+    """
+    Retrieve all registered customers.
+
+    Returns:
+    - 200: List of all customers.
+    """
     logger.info("Fetching all customers.")
     customers = Customer.query.all()
     return jsonify([customer.to_dict() for customer in customers]), 200
@@ -119,6 +165,16 @@ def get_all_customers():
 # Get a customer by username
 @customers_bp.route('/get/<username>', methods=['GET'])
 def get_customer_by_username(username):
+    """
+    Retrieve customer information by username.
+
+    Parameters:
+    - username (str): The username of the customer.
+
+    Returns:
+    - 200: Customer information.
+    - 404: Error message if the customer was not found.
+    """
     logger.info(f"Fetching customer '{username}'.")
     customer = Customer.query.filter_by(username=username).first()
     if not customer:
@@ -130,6 +186,20 @@ def get_customer_by_username(username):
 # Charge wallet
 @customers_bp.route('/charge/<username>', methods=['POST'])
 def charge_wallet(username):
+    """
+    Add funds to a customer's wallet.
+
+    Parameters:
+    - username (str): The username of the customer.
+
+    Request Body:
+    - amount (float): Amount to be added.
+
+    Returns:
+    - 200: Success message and updated wallet balance.
+    - 400: Error message if validation fails.
+    - 404: Error message if the customer was not found.
+    """
     logger.info(f"Attempting to charge wallet for customer '{username}'.")
     data = request.get_json()
     amount = data.get('amount')
@@ -151,6 +221,20 @@ def charge_wallet(username):
 # Deduct from wallet
 @customers_bp.route('/deduct/<username>', methods=['POST'])
 def deduct_wallet(username):
+    """
+    Deduct funds from a customer's wallet.
+
+    Parameters:
+    - username (str): The username of the customer.
+
+    Request Body:
+    - amount (float): Amount to be deducted.
+
+    Returns:
+    - 200: Success message and updated wallet balance.
+    - 400: Error message if validation fails or insufficient funds.
+    - 404: Error message if the customer was not found.
+    """
     logger.info(f"Attempting to deduct wallet for customer '{username}'.")
     data = request.get_json()
     amount = data.get('amount')
