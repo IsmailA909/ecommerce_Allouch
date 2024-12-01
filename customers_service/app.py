@@ -1,7 +1,11 @@
 from flask import Flask
 from models import db
 from routes import customers_bp
-
+"""
+Customers Service Module
+========================
+Handles customer-related operations such as registration, deletion, and updates.
+"""
 app = Flask(__name__)
 
 # Database configuration

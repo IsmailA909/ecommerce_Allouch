@@ -3,6 +3,16 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 class Purchase(db.Model):
+    """
+    Model representing a customer purchase.
+
+    Attributes:
+    - id (int): Primary key.
+    - customer_username (str): Username of the purchasing customer.
+    - good_id (int): ID of the purchased good.
+    - quantity (int): Quantity of the purchased good.
+    - total_price (float): Total price of the purchase.
+    """
     __tablename__ = 'purchases'
 
     id = db.Column(db.Integer, primary_key=True)

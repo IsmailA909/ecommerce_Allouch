@@ -1,11 +1,28 @@
 from flask import Blueprint, request, jsonify
 from models import db, Review
-
+"""
+Routes for reviews Service
+============================
+Defines the API endpoints for review operations.
+"""
 reviews_bp = Blueprint('reviews', __name__, url_prefix='/reviews')
 
 # Submit a review
 @reviews_bp.route('/submit', methods=['POST'])
 def submit_review():
+    """
+    Submit a review for a good.
+
+    Request Body:
+    - username (str): Username of the customer submitting the review.
+    - good_id (int): ID of the reviewed good.
+    - rating (int): Rating (1-5).
+    - comment (str): Review comment.
+
+    Returns:
+    - 201: Success message on review submission.
+    - 400: Error message if validation fails.
+    """
     data = request.get_json()
     required_fields = ['customer_username', 'product_id', 'rating', 'comment']
     for field in required_fields:

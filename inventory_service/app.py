@@ -1,7 +1,11 @@
 from flask import Flask
 from models import db
 from routes import inventory_bp
-
+"""
+inventory Service Module
+========================
+Handles inventory-related operations.
+"""
 app = Flask(__name__)
 
 # Database configuration

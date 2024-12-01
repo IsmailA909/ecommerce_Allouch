@@ -1,11 +1,29 @@
 from flask import Blueprint, request, jsonify
 from models import db, Goods
-
+"""
+Routes for inventory Service
+============================
+Defines the API endpoints for inventory operations.
+"""
 inventory_bp = Blueprint('inventory', __name__, url_prefix='/inventory')
 
 # Add new goods
 @inventory_bp.route('/add', methods=['POST'])
 def add_goods():
+    """
+    Add new goods to the inventory.
+
+    Request Body:
+    - name (str): Name of the good.
+    - category (str): Category (e.g., food, electronics).
+    - price (float): Price of the good.
+    - description (str): Brief description of the good.
+    - stock_count (int): Initial stock count.
+
+    Returns:
+    - 201: Success message and details of the added good.
+    - 400: Error message if required fields are missing.
+    """
     data = request.get_json()
     required_fields = ['name', 'category', 'price', 'description', 'stock_count']
     for field in required_fields:

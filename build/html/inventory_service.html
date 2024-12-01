@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Inventory Service &#8212; eCommerceProj 1.0.2 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Sales Service" href="sales_service.html" />
+    <link rel="prev" title="Customers Service" href="customers_service.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="inventory-service">
+<h1>Inventory Service<a class="headerlink" href="#inventory-service" title="Permalink to this heading">¶</a></h1>
+<p>The Inventory Service is responsible for managing goods in the eCommerce system. This includes adding new goods, updating existing goods, removing goods from stock, and retrieving details about available goods.</p>
+<section id="key-responsibilities">
+<h2>Key Responsibilities<a class="headerlink" href="#key-responsibilities" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Add Goods:</strong> Add new items to the inventory with their relevant details.</p></li>
+<li><p><strong>Update Goods:</strong> Modify the details of existing items.</p></li>
+<li><p><strong>Deduct Stock:</strong> Reduce the stock count for specific items.</p></li>
+<li><p><strong>Retrieve Goods:</strong> Fetch details of all goods or a specific good by its ID.</p></li>
+</ul>
+</section>
+<section id="available-endpoints">
+<h2>Available Endpoints<a class="headerlink" href="#available-endpoints" title="Permalink to this heading">¶</a></h2>
+<ol class="arabic">
+<li><p><strong>Add Goods</strong>
+- <strong>Method:</strong> POST
+- <strong>URL:</strong> <cite>/inventory/add</cite>
+- <strong>Description:</strong> Adds a new item to the inventory.
+- <strong>Payload:</strong></p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Laptop&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;electronics&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="mf">900.0</span><span class="p">,</span>
+  <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;High-performance laptop&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;stock_count&quot;</span><span class="p">:</span> <span class="mi">20</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Response:</strong> Returns a success message and details of the newly added good.</p></li>
+</ul>
+</li>
+<li><p><strong>Update Goods</strong>
+- <strong>Method:</strong> PUT
+- <strong>URL:</strong> <cite>/inventory/update/&lt;int:goods_id&gt;</cite>
+- <strong>Description:</strong> Updates the details of an existing good by its ID.
+- <strong>Payload:</strong></p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="mf">850.0</span><span class="p">,</span>
+  <span class="s2">&quot;stock_count&quot;</span><span class="p">:</span> <span class="mi">15</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Response:</strong> Returns the updated good details or an error if the good is not found.</p></li>
+</ul>
+</li>
+<li><p><strong>Deduct Goods</strong>
+- <strong>Method:</strong> POST
+- <strong>URL:</strong> <cite>/inventory/deduct/&lt;int:goods_id&gt;</cite>
+- <strong>Description:</strong> Deducts a specific quantity from the stock of a good.
+- <strong>Payload:</strong></p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;quantity&quot;</span><span class="p">:</span> <span class="mi">5</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Response:</strong> Returns the updated stock details or an error if the good is not found or if the stock is insufficient.</p></li>
+</ul>
+</li>
+<li><p><strong>Get All Goods</strong>
+- <strong>Method:</strong> GET
+- <strong>URL:</strong> <cite>/inventory/all</cite>
+- <strong>Description:</strong> Retrieves a list of all goods in the inventory.
+- <strong>Response:</strong> Returns an array of goods, each with its details.</p></li>
+<li><p><strong>Get Good by ID</strong>
+- <strong>Method:</strong> GET
+- <strong>URL:</strong> <cite>/inventory/&lt;int:goods_id&gt;</cite>
+- <strong>Description:</strong> Retrieves details of a specific good by its ID.
+- <strong>Response:</strong> Returns the good’s details or an error if the good is not found.</p></li>
+</ol>
+</section>
+<section id="database-schema">
+<h2>Database Schema<a class="headerlink" href="#database-schema" title="Permalink to this heading">¶</a></h2>
+<p>The service uses a single table to store inventory data with the following structure:</p>
+<ul class="simple">
+<li><p><strong>id (int):</strong> Unique identifier for the good (Primary Key).</p></li>
+<li><p><strong>name (str):</strong> Name of the good.</p></li>
+<li><p><strong>category (str):</strong> Category of the good (e.g., electronics, food, clothing).</p></li>
+<li><p><strong>price (float):</strong> Price per item.</p></li>
+<li><p><strong>description (str):</strong> Description of the good.</p></li>
+<li><p><strong>stock_count (int):</strong> Current stock count of the good.</p></li>
+</ul>
+<p>—</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">eCommerceProj</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="customers_service.html">Customers Service</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Inventory Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#key-responsibilities">Key Responsibilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#available-endpoints">Available Endpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#database-schema">Database Schema</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sales_service.html">Sales Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reviews_service.html">Reviews Service</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="customers_service.html" title="previous chapter">Customers Service</a></li>
+      <li>Next: <a href="sales_service.html" title="next chapter">Sales Service</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, Ismail Allouch.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/inventory_service.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

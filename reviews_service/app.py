@@ -1,7 +1,11 @@
 from flask import Flask
 from models import db
 from routes import reviews_bp
-
+"""
+reviews Service Module
+========================
+Handles review-related operations.
+"""
 app = Flask(__name__)
 
 # Database configuration

@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Reviews Service &#8212; eCommerceProj 1.0.2 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Sales Service" href="sales_service.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="reviews-service">
+<h1>Reviews Service<a class="headerlink" href="#reviews-service" title="Permalink to this heading">¶</a></h1>
+<p>The Reviews Service enables customers to submit, update, and delete product reviews. It also allows administrators to moderate reviews to maintain the integrity of feedback.</p>
+<section id="key-responsibilities">
+<h2>Key Responsibilities<a class="headerlink" href="#key-responsibilities" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Submit Reviews:</strong> Allows customers to provide feedback on products with a rating and comment.</p></li>
+<li><p><strong>Update Reviews:</strong> Enables customers to modify their existing reviews.</p></li>
+<li><p><strong>Delete Reviews:</strong> Allows customers and administrators to remove reviews.</p></li>
+<li><p><strong>Moderate Reviews:</strong> Lets administrators approve or flag reviews.</p></li>
+<li><p><strong>Retrieve Reviews:</strong> Retrieves reviews for a specific product or customer.</p></li>
+</ul>
+</section>
+<section id="available-endpoints">
+<h2>Available Endpoints<a class="headerlink" href="#available-endpoints" title="Permalink to this heading">¶</a></h2>
+<ol class="arabic">
+<li><p><strong>Submit Review</strong>
+- <strong>Method:</strong> POST
+- <strong>URL:</strong> <cite>/reviews/submit</cite>
+- <strong>Description:</strong> Submits a new review for a product.
+- <strong>Payload:</strong></p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;customer_username&quot;</span><span class="p">:</span> <span class="s2">&quot;johndoe&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;good_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="s2">&quot;rating&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;Great product!&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul>
+<li><p><strong>Response:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Review submitted successfully&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p><strong>Update Review</strong>
+- <strong>Method:</strong> PUT
+- <strong>URL:</strong> <cite>/reviews/update/&lt;int:review_id&gt;</cite>
+- <strong>Description:</strong> Updates an existing review.
+- <strong>Payload:</strong></p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;rating&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;Good, but could be better.&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul>
+<li><p><strong>Response:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Review updated successfully&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p><strong>Delete Review</strong>
+- <strong>Method:</strong> DELETE
+- <strong>URL:</strong> <cite>/reviews/delete/&lt;int:review_id&gt;</cite>
+- <strong>Description:</strong> Deletes a review by its ID.
+- <strong>Response:</strong></p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Review deleted successfully&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p><strong>Moderate Review</strong>
+- <strong>Method:</strong> POST
+- <strong>URL:</strong> <cite>/reviews/moderate/&lt;int:review_id&gt;</cite>
+- <strong>Description:</strong> Flags or approves a review for moderation.
+- <strong>Payload:</strong></p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;approved&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul>
+<li><p><strong>Response:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Review moderation updated&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p><strong>Get Product Reviews</strong>
+- <strong>Method:</strong> GET
+- <strong>URL:</strong> <cite>/reviews/product/&lt;int:good_id&gt;</cite>
+- <strong>Description:</strong> Retrieves all reviews for a specific product.
+- <strong>Response:</strong></p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;customer_username&quot;</span><span class="p">:</span> <span class="s2">&quot;johndoe&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rating&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;Great product!&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;approved&quot;</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p><strong>Get Customer Reviews</strong>
+- <strong>Method:</strong> GET
+- <strong>URL:</strong> <cite>/reviews/customer/&lt;customer_username&gt;</cite>
+- <strong>Description:</strong> Retrieves all reviews submitted by a specific customer.
+- <strong>Response:</strong></p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;good_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Laptop&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rating&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;Excellent performance!&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;approved&quot;</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</section>
+<section id="review-workflow">
+<h2>Review Workflow<a class="headerlink" href="#review-workflow" title="Permalink to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Validate the existence of the customer and product before submitting a review.</p></li>
+<li><p>Allow customers to update or delete their own reviews.</p></li>
+<li><p>Enable administrators to approve or flag inappropriate reviews.</p></li>
+<li><p>Maintain review history for transparency and analysis.</p></li>
+</ol>
+</section>
+<section id="database-schema">
+<h2>Database Schema<a class="headerlink" href="#database-schema" title="Permalink to this heading">¶</a></h2>
+<p>The service interacts with the following tables:</p>
+<ol class="arabic simple">
+<li><p><strong>Reviews:</strong>
+- <strong>id (int):</strong> Unique identifier for the review (Primary Key).
+- <strong>customer_username (str):</strong> Username of the customer who submitted the review.
+- <strong>good_id (int):</strong> ID of the reviewed good.
+- <strong>rating (int):</strong> Rating given by the customer (e.g., 1-5).
+- <strong>comment (str):</strong> Feedback provided by the customer.
+- <strong>status (str):</strong> Status of the review (e.g., “approved”, “flagged”).</p></li>
+</ol>
+<p>—</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">eCommerceProj</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="customers_service.html">Customers Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inventory_service.html">Inventory Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sales_service.html">Sales Service</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reviews Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#key-responsibilities">Key Responsibilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#available-endpoints">Available Endpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#review-workflow">Review Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#database-schema">Database Schema</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="sales_service.html" title="previous chapter">Sales Service</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, Ismail Allouch.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/reviews_service.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

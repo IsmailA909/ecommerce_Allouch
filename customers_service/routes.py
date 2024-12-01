@@ -1,12 +1,33 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash
 from models import db, Customer
+"""
+Routes for Customers Service
+============================
+Defines the API endpoints for customer operations.
+"""
 
 customers_bp = Blueprint('customers', __name__, url_prefix='/customers')
 
 # Register a new customer
 @customers_bp.route('/register', methods=['POST'])
 def register_customer():
+    """
+    Register a new customer.
+
+    Request Body:
+    - full_name (str): The full name of the customer.
+    - username (str): A unique username for the customer.
+    - password (str): The password for the customer account.
+    - age (int): Age of the customer.
+    - address (str): Address of the customer.
+    - gender (str): Gender of the customer.
+    - marital_status (str): Marital status of the customer.
+
+    Returns:
+    - 201: Success message on successful registration.
+    - 400: Error message if username already exists or validation fails.
+    """    
     data = request.get_json()
     if not data:
         return jsonify({"error": "Invalid input"}), 400

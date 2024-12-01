@@ -1,7 +1,11 @@
 from flask import Flask
 from models import db
 from routes import sales_bp
-
+"""
+sales Service Module
+========================
+Handles sale-related operations.
+"""
 app = Flask(__name__)
 
 # Database configuration

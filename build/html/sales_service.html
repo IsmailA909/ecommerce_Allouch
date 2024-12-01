@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Sales Service &#8212; eCommerceProj 1.0.2 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Reviews Service" href="reviews_service.html" />
+    <link rel="prev" title="Inventory Service" href="inventory_service.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="sales-service">
+<h1>Sales Service<a class="headerlink" href="#sales-service" title="Permalink to this heading">¶</a></h1>
+<p>The Sales Service manages customer purchases and displays available goods. It facilitates the purchase process by ensuring sufficient stock and wallet balance and updates inventory and customer wallet upon successful transactions.</p>
+<section id="key-responsibilities">
+<h2>Key Responsibilities<a class="headerlink" href="#key-responsibilities" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Display Goods:</strong> Show all available goods with basic details.</p></li>
+<li><p><strong>Get Good Details:</strong> Retrieve detailed information about a specific good.</p></li>
+<li><p><strong>Make a Purchase:</strong> Process a customer’s purchase of a good, validate stock and balance, and update records.</p></li>
+<li><p><strong>Purchase History:</strong> Retrieve the history of purchases for a specific customer.</p></li>
+</ul>
+</section>
+<section id="available-endpoints">
+<h2>Available Endpoints<a class="headerlink" href="#available-endpoints" title="Permalink to this heading">¶</a></h2>
+<ol class="arabic">
+<li><p><strong>Display Goods</strong>
+- <strong>Method:</strong> GET
+- <strong>URL:</strong> <cite>/sales/goods</cite>
+- <strong>Description:</strong> Retrieves a list of available goods with their names and prices.
+- <strong>Response:</strong></p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Laptop&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="mf">900.0</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Phone&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="mf">500.0</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p><strong>Get Good Details</strong>
+- <strong>Method:</strong> GET
+- <strong>URL:</strong> <cite>/sales/goods/&lt;int:good_id&gt;</cite>
+- <strong>Description:</strong> Retrieves detailed information about a specific good by its ID.
+- <strong>Response:</strong></p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Laptop&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;electronics&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="mf">900.0</span><span class="p">,</span>
+  <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;High-performance laptop&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;stock_count&quot;</span><span class="p">:</span> <span class="mi">20</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p><strong>Make a Purchase</strong>
+- <strong>Method:</strong> POST
+- <strong>URL:</strong> <cite>/sales/purchase</cite>
+- <strong>Description:</strong> Processes a purchase request for a customer.
+- <strong>Payload:</strong></p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;customer_username&quot;</span><span class="p">:</span> <span class="s2">&quot;johndoe&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;good_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="s2">&quot;quantity&quot;</span><span class="p">:</span> <span class="mi">2</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Response:</strong> Returns a success message with the purchase details, or an error if conditions are not met (e.g., insufficient stock or wallet balance).</p></li>
+</ul>
+</li>
+<li><p><strong>Purchase History</strong>
+- <strong>Method:</strong> GET
+- <strong>URL:</strong> <cite>/sales/history/&lt;customer_username&gt;</cite>
+- <strong>Description:</strong> Retrieves all past purchases for a specific customer.
+- <strong>Response:</strong></p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;good_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Laptop&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;quantity&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;total_price&quot;</span><span class="p">:</span> <span class="mf">900.0</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="s2">&quot;good_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Phone&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;quantity&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">&quot;total_price&quot;</span><span class="p">:</span> <span class="mf">1000.0</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</section>
+<section id="purchase-workflow">
+<h2>Purchase Workflow<a class="headerlink" href="#purchase-workflow" title="Permalink to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Validate the existence of the customer and the good.</p></li>
+<li><p>Ensure the customer’s wallet balance is sufficient for the purchase.</p></li>
+<li><p>Deduct the required stock from the inventory.</p></li>
+<li><p>Deduct the total price from the customer’s wallet.</p></li>
+<li><p>Record the purchase details for history.</p></li>
+</ol>
+</section>
+<section id="database-schema">
+<h2>Database Schema<a class="headerlink" href="#database-schema" title="Permalink to this heading">¶</a></h2>
+<p>The service interacts with the following tables:</p>
+<ol class="arabic simple">
+<li><p><strong>Purchases:</strong>
+- <strong>id (int):</strong> Unique identifier for the purchase (Primary Key).
+- <strong>customer_username (str):</strong> Username of the customer who made the purchase.
+- <strong>good_id (int):</strong> ID of the purchased good.
+- <strong>quantity (int):</strong> Quantity of the good purchased.
+- <strong>total_price (float):</strong> Total price of the purchase.</p></li>
+</ol>
+<p>—</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">eCommerceProj</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="customers_service.html">Customers Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inventory_service.html">Inventory Service</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Sales Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#key-responsibilities">Key Responsibilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#available-endpoints">Available Endpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#purchase-workflow">Purchase Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#database-schema">Database Schema</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reviews_service.html">Reviews Service</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="inventory_service.html" title="previous chapter">Inventory Service</a></li>
+      <li>Next: <a href="reviews_service.html" title="next chapter">Reviews Service</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, Ismail Allouch.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/sales_service.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

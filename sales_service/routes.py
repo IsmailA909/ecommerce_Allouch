@@ -1,7 +1,11 @@
 from flask import Blueprint, request, jsonify
 from models import db, Purchase
 import requests
-
+"""
+Routes for sales Service
+============================
+Defines the API endpoints for sales operations.
+"""
 sales_bp = Blueprint('sales', __name__, url_prefix='/sales')
 
 # Helper function to fetch data from other services
@@ -48,6 +52,19 @@ def get_good_details(good_id):
 # 3. Make a Sale
 @sales_bp.route('/sale', methods=['POST'])
 def make_sale():
+    """
+    Handle customer purchase.
+
+    Request Body:
+    - customer_username (str): Username of the purchasing customer.
+    - good_id (int): ID of the good being purchased.
+    - quantity (int): Quantity of the good to purchase.
+
+    Returns:
+    - 201: Success message with purchase details.
+    - 400: Error if insufficient stock or wallet balance.
+    - 404: Error if the customer or good is not found.
+    """
     try:
         data = request.get_json()
         customer_username = data.get('customer_username')

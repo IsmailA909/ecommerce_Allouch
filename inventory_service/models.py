@@ -3,6 +3,17 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 class Goods(db.Model):
+    """
+    Model representing a good in the inventory.
+
+    Attributes:
+    - id (int): Primary key.
+    - name (str): Name of the good.
+    - category (str): Category of the good.
+    - price (float): Price of the good.
+    - description (str): Description of the good.
+    - stock_count (int): Number of items in stock.
+    """
     __tablename__ = 'goods'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
